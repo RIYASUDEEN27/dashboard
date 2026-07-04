@@ -19,6 +19,7 @@ async def get_tasks(current_user: dict = Depends(get_current_user)):
             title=task["title"],
             description=task.get("description"),
             completed=task.get("completed", False),
+            priority=task.get("priority", "medium"),
             user_id=task["user_id"],
             created_at=task.get("created_at"),
             updated_at=task.get("updated_at")
@@ -32,6 +33,7 @@ async def create_task(task: TaskCreate, current_user: dict = Depends(get_current
         "title": task.title,
         "description": task.description,
         "completed": task.completed,
+        "priority": task.priority,
         "user_id": current_user["id"],
         "created_at": now,
         "updated_at": now
@@ -69,6 +71,7 @@ async def update_task(task_id: str, task_update: TaskUpdate, current_user: dict 
         title=updated_task["title"],
         description=updated_task.get("description"),
         completed=updated_task.get("completed", False),
+        priority=updated_task.get("priority", "medium"),
         user_id=updated_task["user_id"],
         created_at=updated_task.get("created_at"),
         updated_at=updated_task.get("updated_at")

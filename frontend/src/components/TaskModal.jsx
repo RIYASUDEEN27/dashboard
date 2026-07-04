@@ -5,23 +5,27 @@ import { X } from 'lucide-react';
 const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('medium');
 
   useEffect(() => {
     if (task) {
       setTitle(task.title);
       setDescription(task.description || '');
+      setPriority(task.priority || 'medium');
     } else {
       setTitle('');
       setDescription('');
+      setPriority('medium');
     }
   }, [task, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onSave({ title, description });
+    onSave({ title, description, priority });
     setTitle('');
     setDescription('');
+    setPriority('medium');
   };
 
   return (
@@ -79,6 +83,31 @@ const TaskModal = ({ isOpen, onClose, onSave, task = null }) => {
                     className="input-field min-h-[100px] resize-none"
                     placeholder="Add more details here..."
                   />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">
+                    Priority
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['low', 'medium', 'high'].map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setPriority(p)}
+                        className={`py-2 px-3 rounded-lg border text-sm font-medium capitalize transition-all duration-200 ${
+                          priority === p
+                            ? p === 'high'
+                              ? 'bg-rose-500/20 text-rose-400 border-rose-500/40 shadow-sm shadow-rose-500/10'
+                              : p === 'medium'
+                              ? 'bg-amber-500/20 text-amber-400 border-amber-500/40 shadow-sm shadow-amber-500/10'
+                              : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 shadow-sm shadow-emerald-500/10'
+                            : 'bg-white/5 text-slate-400 border-white/5 hover:bg-white/10 hover:text-white'
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div className="flex justify-end gap-3 pt-4">
                   <button

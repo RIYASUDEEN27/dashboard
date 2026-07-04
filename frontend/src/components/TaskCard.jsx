@@ -26,9 +26,20 @@ const TaskCard = ({ task, onToggle, onEdit, onDelete }) => {
       </button>
       
       <div className="flex-1 min-w-0">
-        <h3 className={`text-lg font-semibold truncate ${task.completed ? 'line-through text-textMuted' : 'text-white'}`}>
-          {task.title}
-        </h3>
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
+          <h3 className={`text-lg font-semibold truncate ${task.completed ? 'line-through text-textMuted' : 'text-white'}`}>
+            {task.title}
+          </h3>
+          <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase border tracking-wider select-none ${
+            task.priority === 'high'
+              ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+              : task.priority === 'medium'
+              ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+              : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+          }`}>
+            {task.priority || 'medium'}
+          </span>
+        </div>
         {task.description && (
           <p className={`mt-1 text-sm ${task.completed ? 'line-through text-textMuted/70' : 'text-textMuted'} line-clamp-2`}>
             {task.description}
